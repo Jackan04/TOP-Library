@@ -1,3 +1,16 @@
+//Chaching of DOM Elements
+const buttonShowModal = document.querySelector("#btn-show-modal");
+const buttonCloseModal = document.querySelector("#btn-close-modal");
+const buttonAddBook = document.querySelector("#btn-add-book");
+const modalNewBook = document.querySelector("#modal-new-book");
+
+
+const titleInput = document.querySelector("#title");
+const authorInput = document.querySelector("#author");
+const yearInput = document.querySelector("#year");
+
+
+
 const library = [];
 
 
@@ -11,11 +24,11 @@ function loadLibrary(){
         const books = JSON.parse(savedLibrary);
 
         books.forEach(bookData => {
-            const book = new Book(bookData._title, bookData._author, bookData._year);
+            const book = new Book(bookData._title, bookData._author, bookData._year, bookData._isRead);
             library.push(book);
         });
     } else{
-        alert("No books were found in the library");
+        alert("No books was found in the library");
     }
 }
 
@@ -29,13 +42,23 @@ class Book{
         this.title = title;
         this.author = author;
         this.year = year;
+        this.isRead = false;
+    }
+
+        toggleCompleted(){
+            if(this.isRead === false) {
+            this.isRead = true;
+
+            } else {
+            this.isRead = false;
+            }
     }
 
     set title(title){
         if(typeof title === "string" && title.length !== 0){
             this._title = title;
         }else{
-            alert("The title must be a non-empty string");
+            // alert("The title must be a non-empty string");
         }
     }
 
@@ -43,7 +66,7 @@ class Book{
         if(typeof author === "string" && author.length !== 0){
             this._author = author;
         }else{
-            alert("The author must be a non-empty string");
+            // alert("The author must be a non-empty string");
         }
     }
 
@@ -51,7 +74,7 @@ class Book{
         if(typeof year === "number" && !isNaN(year)){
             this._year = year;
         }else{
-            alert("The year must be a non-empty number");
+            // alert("The year must be a non-empty number");
         }
     }
 
@@ -73,12 +96,12 @@ class Book{
 
 }
 
-const addBookToLibrary = (book) =>{
+function addBookToLibrary(book){
     
     if(book){
         library.push(book);
         saveLibrary();
-        renderBooks();
+        
         
     }else{
         alert("No book was added");
@@ -86,24 +109,50 @@ const addBookToLibrary = (book) =>{
 
 }
 
+
 function renderBooks(){
     
     let counter = 0;
     library.forEach(book => {
         counter++;
-        console.log(`Book number ${counter} \nTitle: ${book.title} \nAuthor: ${book.author} \nYear: ${book.year} `)
+        console.log(`Book number ${counter} \nTitle: ${book.title} \nAuthor: ${book.author} \nYear: ${book.year} \nIs read: ${book.isRead} `)
        
     });
 }
 
-const book1 = new Book("Harry Potter", "Jacob Asker", 2004);
-const book2 = new Book("Book 2", "Anders Asker", 2009);
-addBookToLibrary(book1);
-addBookToLibrary(book2);
+function clearInputFields(){
+    titleInput.value = ""
+    authorInput.value = ""
+    yearInput.value = ""
+}
+
+function showModal(){
+    modalNewBook.showModal();
+}
+function closeModal(){
+    modalNewBook.close();
+}
 
 
 // Event Listeners
 
+// Toggle for opening or closing the modal
+buttonShowModal.addEventListener("click", showModal);
+buttonCloseModal.addEventListener("click", closeModal);
+
+// Adding a new book
+buttonAddBook.addEventListener("click", function(){
+    const title = titleInput.value;
+    const author = authorInput.value;
+    const year = parseInt(yearInput.value);
+
+    const newBook = new Book(title, author, year);
+    addBookToLibrary(newBook);
+    saveLibrary();
+    alert("Book added!");
+    clearInputFields()
+   
+});
 
 // Initial Load of Website
 loadLibrary()
