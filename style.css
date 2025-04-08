@@ -58,6 +58,10 @@ main{
 
 footer{
   grid-area: footer;
+  background-color: var(--primary);
+  width: 100%;
+  padding: var(--padding-small);
+  text-align: center;
 }
 
 button{

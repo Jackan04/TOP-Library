@@ -3,8 +3,9 @@ const buttonShowModal = document.querySelector("#btn-show-modal");
 const buttonCloseModal = document.querySelector("#btn-close-modal");
 const buttonAddBook = document.querySelector("#btn-add-book");
 const modalNewBook = document.querySelector("#modal-new-book");
-
+const tableHead = document.querySelector("thead");
 const tableBody = document.querySelector("#library-table-body");
+const mainContent = document.querySelector("main");
 
 
 const titleInput = document.querySelector("#title");
@@ -132,6 +133,13 @@ function deleteBook(index){
 
 function renderBooks() {
     tableBody.innerHTML = ""; 
+   
+    if(library.length === 0){
+        const message = document.createElement("p")
+        message.textContent = "Your library is empty. Click the button above to add your first book!";
+        tableHead.style.display = "none";
+        mainContent.appendChild(message) 
+    }
 
     library.forEach((book, index) => {
         const tableRow = document.createElement("tr"); 
@@ -193,8 +201,9 @@ function closeModal(){
 // Event Listeners
 
 // Toggle for opening or closing the modal
-buttonShowModal.addEventListener("click", showModal);
-buttonCloseModal.addEventListener("click", closeModal);
+buttonShowModal.addEventListener("click", () => showModal())
+buttonCloseModal.addEventListener("click", () => closeModal())
+
 
 // Adding a new book
 buttonAddBook.addEventListener("click", function(){
