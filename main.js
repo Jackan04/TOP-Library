@@ -4,6 +4,8 @@ const buttonCloseModal = document.querySelector("#btn-close-modal");
 const buttonAddBook = document.querySelector("#btn-add-book");
 const modalNewBook = document.querySelector("#modal-new-book");
 
+const tableBody = document.querySelector("#library-table-body");
+
 
 const titleInput = document.querySelector("#title");
 const authorInput = document.querySelector("#author");
@@ -18,17 +20,18 @@ function saveLibrary() {
     localStorage.setItem("library", JSON.stringify(library));
 }
 
-function loadLibrary(){
+function loadLibrary() {
     const savedLibrary = localStorage.getItem("library");
-    if(savedLibrary){
+    if (savedLibrary) {
         const books = JSON.parse(savedLibrary);
 
         books.forEach(bookData => {
-            const book = new Book(bookData._title, bookData._author, bookData._year, bookData._isRead);
+            const book = new Book(bookData._title, bookData._author, bookData._year);
+            book.isRead = bookData.isRead; // Restore the `isRead` property
             library.push(book);
         });
-    } else{
-        alert("No books was found in the library");
+    } else {
+        alert("No books were found in the library");
     }
 }
 
@@ -47,10 +50,14 @@ class Book{
 
         toggleCompleted(){
             if(this.isRead === false) {
-            this.isRead = true;
+                this.isRead = true;
+                saveLibrary();
+                renderBooks(); 
 
             } else {
-            this.isRead = false;
+                this.isRead = false;
+                saveLibrary();
+                renderBooks(); 
             }
     }
 
@@ -101,6 +108,7 @@ function addBookToLibrary(book){
     if(book){
         library.push(book);
         saveLibrary();
+        renderBooks();
         
         
     }else{
@@ -109,22 +117,70 @@ function addBookToLibrary(book){
 
 }
 
+function deleteBook(index){
+    const bookTitle = library[index].title;
+    const confirmation = confirm(`Confirm that you want to delete "${bookTitle}"? `);
+    if(confirmation){
+        library.splice(index, 1); 
+        saveLibrary();
+        renderBooks(); 
+    }else{
+        return;
+    }
+  
+}
 
-function renderBooks(){
-    
-    let counter = 0;
-    library.forEach(book => {
-        counter++;
-        console.log(`Book number ${counter} \nTitle: ${book.title} \nAuthor: ${book.author} \nYear: ${book.year} \nIs read: ${book.isRead} `)
-       
+function renderBooks() {
+    tableBody.innerHTML = ""; 
+
+    library.forEach((book, index) => {
+        const tableRow = document.createElement("tr"); 
+
+        // Create the td for Title
+        const titleCell = document.createElement("td");
+        titleCell.textContent = book.title;
+        tableRow.appendChild(titleCell);
+
+        // Create the td for Author
+        const authorCell = document.createElement("td");
+        authorCell.textContent = book.author;
+        tableRow.appendChild(authorCell);
+        
+        // Create the td for Year
+        const yearCell = document.createElement("td");
+        yearCell.textContent = book.year;
+        tableRow.appendChild(yearCell);
+
+        // Status Section
+        const statusCell = document.createElement("td");
+        const statusButton = document.createElement("button"); 
+        
+        if(book.isRead){
+            statusButton.textContent = "Read"
+            statusButton.classList.add("btn-status-isread");
+        }else{
+            statusButton.textContent = "Not Read"
+        }
+        statusCell.appendChild(statusButton);
+        tableRow.appendChild(statusCell);
+        
+        // Delete Section
+        const deleteCell = document.createElement("td");
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.classList.add("btn-danger");
+        deleteCell.appendChild(deleteButton);
+        tableRow.appendChild(deleteCell);
+        
+        // Event Listeners
+        deleteButton.addEventListener("click", () => deleteBook(index))
+        statusButton.addEventListener("click", () => book.toggleCompleted(index))
+
+        tableBody.appendChild(tableRow);
     });
 }
 
-function clearInputFields(){
-    titleInput.value = ""
-    authorInput.value = ""
-    yearInput.value = ""
-}
+
 
 function showModal(){
     modalNewBook.showModal();
@@ -149,8 +205,7 @@ buttonAddBook.addEventListener("click", function(){
     const newBook = new Book(title, author, year);
     addBookToLibrary(newBook);
     saveLibrary();
-    alert("Book added!");
-    clearInputFields()
+    closeModal();
    
 });
 
