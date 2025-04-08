@@ -1,54 +1,108 @@
-/* 1. Use a more-intuitive box-sizing model */
-*, *::before, *::after {
-    box-sizing: border-box;
-  }
+/* Variables */
+:root{
+  --background: #FFF5D8;
+  --primary: #FEDF7A;
+  --padding-small: 10px;
+  --padding-large: 20px;
+  --border-radius: 10px;
+  --transition: 0.1s ease-in-out;
+  --text-color: #333;
+}
+
+/* Basic CSS Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button:focus, input:focus{
+  outline: none;
+
+}
+
+/* General Styling */
+body{
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  place-items: center;
+  background-color: var(--background);
+  color: var(--text-color);
   
-  /* 2. Remove default margin */
-  * {
-    margin: 0;
-  }
+}
+
+header{
+    background-color: var(--primary);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 3rem;
+    padding: var(--padding-large);
   
-  /* 3. Enable keyword animations */
-  @media (prefers-reduced-motion: no-preference) {
-    html {
-      interpolate-size: allow-keywords;
-    }
-  }
+}
+
+button{
+  border: none;
+  padding: var(--padding-small);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.btn-table{
+  height: 100%;
+  width: 100%;
+}
+
+button:hover{
+  /* box-shadow: 1px 2px 3px #333; */
+  opacity: 0.7;
+}
+
+#btn-mark-completed, #btn-delete-book{
+  background-color: transparent;
+}
+
+table{
+  max-width: 80%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 3px 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius);
+  table-layout: auto;
   
-  body {
-    /* 4. Add accessible line-height */
-    line-height: 1.5;
-    /* 5. Improve text rendering */
-    -webkit-font-smoothing: antialiased;
-  }
+}
+
+th, td {
+  min-width: 150px;
+  padding: var(--padding-small);
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.td-button-container:hover{
+  opacity: 0.8;
   
-  /* 6. Improve media defaults */
-  img, picture, video, canvas, svg {
-    display: block;
-    max-width: 100%;
-  }
-  
-  /* 7. Inherit fonts for form controls */
-  input, button, textarea, select {
-    font: inherit;
-  }
-  
-  /* 8. Avoid text overflows */
-  p, h1, h2, h3, h4, h5, h6 {
-    overflow-wrap: break-word;
-  }
-  
-  /* 9. Improve line wrapping */
-  p {
-    text-wrap: pretty;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    text-wrap: balance;
-  }
-  
-  /*
-    10. Create a root stacking context
-  */
-  #root, #__next {
-    isolation: isolate;
-  }
+}
+
+#td-delete{
+  background-color: #FACDD7;
+}
+
+#td-status{
+  background-color: #D5F5D9 ;
+}
+
+th {
+  background-color: var(--primary);
+  color: var(--text-color);
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+

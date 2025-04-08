@@ -10,21 +10,53 @@
 
     <header>
         <h2>My Library</h2>
+        <button id="btn-show-modal">New Book</button>
     </header>
 
     <main>
-        <button id="btn-show-modal">New Book</button>
         <table>
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Author</th>
                     <th>Year</th>
-                    <th></th>
+                    <th>Status</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody id="library-table-body">
-                
+                <tr>
+                    <td id="td-title">Test</td>
+                    <td id="td-author">Test</td>
+                    <td id="td-year">2004</td>
+                    <td id="td-status" class="td-button-container"><button class="btn-table" id="btn-mark-completed">Completed</button></td>
+                    <td id="td-delete" class="td-button-container"><button class="btn-table" id="btn-delete-book">Delete</button></td>
+                </tr>
+
+                <tr>
+                    <td id="td-title">Test2</td>
+                    <td id="td-author">Test2</td>
+                    <td id="td-year">2009</td>
+                    <td id="td-status" class="td-button-container"><button class="btn-table" id="btn-mark-completed">Completed</button></td>
+                    <td id="td-delete" class="td-button-container"><button class="btn-table" id="btn-delete-book">Delete</button></td>
+                </tr>
+
+                <tr>
+                    <td id="td-title">Test2</td>
+                    <td id="td-author">Test2</td>
+                    <td id="td-year">2009</td>
+                    <td id="td-status" class="td-button-container"><button class="btn-table" id="btn-mark-completed">Completed</button></td>
+                    <td id="td-delete" class="td-button-container"><button class="btn-table" id="btn-delete-book">Delete</button></td>
+                </tr>
+
+                <tr>
+                    <td id="td-title">Test2</td>
+                    <td id="td-author">Test2</td>
+                    <td id="td-year">2009</td>
+                    <td id="td-status" class="td-button-container"><button class="btn-table" id="btn-mark-completed">Completed</button></td>
+                    <td id="td-delete" class="td-button-container"><button class="btn-table" id="btn-delete-book">Delete</button></td>
+                </tr>
+               
             </tbody>
         </table>
 
